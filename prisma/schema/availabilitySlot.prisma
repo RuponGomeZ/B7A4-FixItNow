@@ -1,0 +1,13 @@
+model Availability {
+  id                  String            @id @default(uuid())
+  technicianProfileId String
+  technicianProfile   TechnicianProfile @relation(fields: [technicianProfileId], references: [id], onDelete: Cascade)
+  date                DateTime
+  startTime           DateTime
+  endTime             DateTime
+  isBooked            Boolean           @default(false)
+
+  booking Booking[]
+
+  @@map("availability")
+}
