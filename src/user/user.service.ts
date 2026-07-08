@@ -10,6 +10,12 @@ const registerUserIntoDb = async (payload: RegisterUserPayload) => {
       email,
     },
   });
+  if (isExist) {
+    throw new Error("User with this email address already exist!");
+  }
+  if (role === "ADMIN") {
+    throw new Error("You are not allowed to set this role");
+  }
   const hashedPassword = await bcrypt.hash(
     password,
     Number(config.bcrypt_salt_rounds),
@@ -29,6 +35,16 @@ const registerUserIntoDb = async (payload: RegisterUserPayload) => {
   return createdUser;
 };
 
+const getProfileFromDb = async (userId: string) => {
+  const user = await prisma.user.findUniqueOrThrow({
+    where: { id: userId },
+    omit: { password: true },
+  });
+
+  return user;
+};
+
 export const userService = {
   registerUserIntoDb,
+  getProfileFromDb,
 };
