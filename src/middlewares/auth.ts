@@ -19,19 +19,18 @@ declare global {
 }
 export const auth = (...requiredRoles: Role[]) => {
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    console.log("From cookie", req.cookies.accessToken);
     const token = req.cookies.accessToken
       ? req.cookies.accessToken
-      : req.headers.authorization?.startsWith("Bearer ")
-        ? req.headers.authorization?.split(" ")[1]
-        : req.headers.authorization;
+      : req.headers.authorization;
 
     if (!token) {
       throw new Error(
         "You are not logged in. Please Login to access this content",
       );
     }
-
     const verifiedToken = jwtUtils.verifyToken(token, config.jwt_access_secret);
+    console.log("From secret", config.jwt_access_secret);
 
     if (!verifiedToken.success) {
       throw new Error(verifiedToken.error);
@@ -57,5 +56,14 @@ export const auth = (...requiredRoles: Role[]) => {
     if (!user) {
       throw new Error("User not found. Please login again");
     }
+
+    req.user = {
+      email,
+      id,
+      name,
+      role,
+    };
+
+    next();
   });
 };
