@@ -2,6 +2,10 @@ import cookieParser from "cookie-parser";
 import express, { Application, Request, Response } from "express";
 import cors from "cors";
 import config from "./config";
+import { userRouter } from "./user/user.route";
+import { globalErrorHandler } from "./middlewares/globalErrorHandler";
+import { authController } from "./auth/auth.controller";
+import { authRouter } from "./auth/auth.route";
 
 const app: Application = express();
 
@@ -20,4 +24,8 @@ app.get("/", (req: Request, res: Response) => {
   res.send("Hello, World!");
 });
 
+app.use("/api/users", userRouter);
+app.use("/api/auth", authRouter);
+
+app.use(globalErrorHandler);
 export default app;
