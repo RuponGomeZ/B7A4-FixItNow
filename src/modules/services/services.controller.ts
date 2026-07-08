@@ -1,0 +1,34 @@
+import { NextFunction, Request, Response } from "express";
+import { catchAsync, sendResponse } from "../../utils/catchAsync";
+import { servicesService } from "./services.service";
+import httpStatus from "http-status";
+
+const createService = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const payload = req.body;
+    const result = await servicesService.createServiceInToDB(payload);
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Service created successfully",
+      data: result,
+    });
+  },
+);
+const getAllServices = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const result = await servicesService.getAllServicesFromDb();
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "All services retrieved successfully",
+      data: result,
+    });
+  },
+);
+
+export const serviceController = {
+  getAllServices,
+  createService,
+};

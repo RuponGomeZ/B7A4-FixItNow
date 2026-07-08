@@ -1,7 +1,7 @@
 import bcrypt from "bcryptjs";
-import { prisma } from "../lib/prisma";
-import { jwtUtils } from "../utils/jwt";
-import config from "../config";
+import { prisma } from "../../lib/prisma";
+import { jwtUtils } from "../../utils/jwt";
+import config from "../../config";
 import { SignOptions } from "jsonwebtoken";
 
 const loginUserIntoDb = async (payload: IUser) => {
@@ -10,7 +10,7 @@ const loginUserIntoDb = async (payload: IUser) => {
   const user = await prisma.user.findUnique({
     where: { email },
   });
-  console.log(user);
+
   if (!user) {
     throw new Error("User not Found! Please register to continue");
   }

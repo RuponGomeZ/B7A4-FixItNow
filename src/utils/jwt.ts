@@ -11,7 +11,6 @@ const createToken = (
 };
 
 const verifyToken = (token: string, secret: string) => {
-  console.log("from util", token, secret);
   try {
     const verifiedToken = jwt.verify(token, secret);
 

@@ -2,10 +2,13 @@ import cookieParser from "cookie-parser";
 import express, { Application, Request, Response } from "express";
 import cors from "cors";
 import config from "./config";
-import { userRouter } from "./user/user.route";
+import { userRouter } from "./modules/user/user.route";
 import { globalErrorHandler } from "./middlewares/globalErrorHandler";
-import { authController } from "./auth/auth.controller";
-import { authRouter } from "./auth/auth.route";
+import { authController } from "./modules/auth/auth.controller";
+import { authRouter } from "./modules/auth/auth.route";
+import { technicianRouter } from "./modules/technician/technician.route";
+import { categoryRouter } from "./modules/category/category.route";
+import { serviceRouter } from "./modules/services/services.route";
 
 const app: Application = express();
 
@@ -26,6 +29,9 @@ app.get("/", (req: Request, res: Response) => {
 
 app.use("/api/users", userRouter);
 app.use("/api/auth", authRouter);
+app.use("/api/technician", technicianRouter);
+app.use("/api/admin/categories", categoryRouter);
+app.use("/api/services", serviceRouter);
 
 app.use(globalErrorHandler);
 export default app;

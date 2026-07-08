@@ -19,7 +19,6 @@ declare global {
 }
 export const auth = (...requiredRoles: Role[]) => {
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    console.log("From cookie", req.cookies.accessToken);
     const token = req.cookies.accessToken
       ? req.cookies.accessToken
       : req.headers.authorization;
@@ -30,7 +29,6 @@ export const auth = (...requiredRoles: Role[]) => {
       );
     }
     const verifiedToken = jwtUtils.verifyToken(token, config.jwt_access_secret);
-    console.log("From secret", config.jwt_access_secret);
 
     if (!verifiedToken.success) {
       throw new Error(verifiedToken.error);
