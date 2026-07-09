@@ -1,5 +1,6 @@
+import { ServiceWhereInput } from "../../../generated/prisma/models";
 import { prisma } from "../../lib/prisma";
-import { IService } from "./services.interface";
+import { IService, IServiceQuery } from "./services.interface";
 
 const createServiceInToDB = async (payload: IService) => {
   const {
@@ -9,6 +10,7 @@ const createServiceInToDB = async (payload: IService) => {
     price,
     duration,
     technicianId,
+    location,
   } = payload;
 
   if (!technicianId) {
@@ -29,6 +31,9 @@ const createServiceInToDB = async (payload: IService) => {
   if (!serviceTitle) {
     throw new Error("Service Title  required");
   }
+  if (!location) {
+    throw new Error("Location required");
+  }
 
   const createService = await prisma.service.create({
     data: {
@@ -38,13 +43,59 @@ const createServiceInToDB = async (payload: IService) => {
       description,
       price,
       duration,
+      location,
     },
   });
   return createService;
 };
 
-const getAllServicesFromDb = async () => {
-  const result = await prisma.service.findMany();
+const getAllServicesFromDb = async (query: IServiceQuery) => {
+  const limit = query.limit ? Number(query.limit) : 10;
+  console.log("from limiit", query);
+  const page = query.page ? Number(query.page) : 1;
+  const skip = (page - 1) * limit;
+  const sortBy = query.sortBy ? query.sortBy : "createdAt";
+  const sortOrder = query.sortOrder ? query.sortOrder : "desc";
+
+  const andConditions: ServiceWhereInput[] = [];
+
+  if (query.price) {
+    andConditions.push({
+      price: Number(query.price),
+    });
+  }
+
+  if (query.maxPrice) {
+    andConditions.push({
+      price: { lte: Number(query.maxPrice) },
+    });
+  }
+
+  if (query.category) {
+    andConditions.push({
+      categoryId: query.category,
+    });
+  }
+
+  if (query.location) {
+    andConditions.push({
+      location: query.location,
+    });
+  }
+
+  if (query.type) {
+    andConditions.push({
+      title: query.type,
+    });
+  }
+
+  const result = await prisma.service.findMany({
+    where: {
+      AND: andConditions,
+    },
+    take: limit,
+    skip: skip,
+  });
 
   return result;
 };

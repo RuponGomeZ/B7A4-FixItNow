@@ -592,8 +592,31 @@ var createServiceInToDB = async (payload) => {
   });
   return createService2;
 };
-var getAllServicesFromDb = async () => {
-  const result = await prisma.service.findMany();
+var getAllServicesFromDb = async (query) => {
+  const limit = query.limit ? Number(query.limit) : 5;
+  console.log("from limiit", query);
+  const page = query.page ? Number(query.page) : 1;
+  const skip = (page - 1) * limit;
+  const sortBy = query.sortBy ? query.sortBy : "createdAt";
+  const sortOrder = query.sortOrder ? query.sortOrder : "desc";
+  const andConditions = [];
+  if (query.price) {
+    andConditions.push({
+      price: Number(query.price)
+    });
+  }
+  if (query.maxPrice) {
+    andConditions.push({
+      price: { lte: Number(query.maxPrice) }
+    });
+  }
+  const result = await prisma.service.findMany({
+    where: {
+      AND: andConditions
+    },
+    take: limit,
+    skip
+  });
   return result;
 };
 var servicesService = {

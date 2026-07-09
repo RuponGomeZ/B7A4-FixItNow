@@ -4,7 +4,7 @@ model User {
   email        String  @unique
   password     String
   phone        String
-  location      String  @db.VarChar(255)
+  location     String  @db.VarChar(255)
   role         Role    @default(CUSTOMER)
   status       Status  @default(ACTIVE)
   profileImage String? @db.VarChar(255)
