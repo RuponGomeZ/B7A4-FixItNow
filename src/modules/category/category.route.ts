@@ -6,5 +6,6 @@ import { Role } from "../../../generated/prisma/enums";
 const router = Router();
 
 router.post("/", auth(Role.ADMIN), categoryController.createCategory);
+router.get("/", categoryController.getAllCategory);
 
 export const categoryRouter = router;

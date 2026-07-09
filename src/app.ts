@@ -9,6 +9,7 @@ import { authRouter } from "./modules/auth/auth.route";
 import { technicianRouter } from "./modules/technician/technician.route";
 import { categoryRouter } from "./modules/category/category.route";
 import { serviceRouter } from "./modules/services/services.route";
+import { availabilityRouter } from "./modules/availibility/availability.route";
 
 const app: Application = express();
 
@@ -32,6 +33,7 @@ app.use("/api/auth", authRouter);
 app.use("/api/technician", technicianRouter);
 app.use("/api/admin/categories", categoryRouter);
 app.use("/api/services", serviceRouter);
+app.use("/api/availability", availabilityRouter);
 
 app.use(globalErrorHandler);
 export default app;

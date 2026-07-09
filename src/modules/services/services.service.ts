@@ -51,7 +51,6 @@ const createServiceInToDB = async (payload: IService) => {
 
 const getAllServicesFromDb = async (query: IServiceQuery) => {
   const limit = query.limit ? Number(query.limit) : 10;
-  console.log("from limiit", query);
   const page = query.page ? Number(query.page) : 1;
   const skip = (page - 1) * limit;
   const sortBy = query.sortBy ? query.sortBy : "createdAt";
@@ -73,7 +72,7 @@ const getAllServicesFromDb = async (query: IServiceQuery) => {
 
   if (query.category) {
     andConditions.push({
-      categoryId: query.category,
+      categoryId: query.categoryId,
     });
   }
 
@@ -95,6 +94,10 @@ const getAllServicesFromDb = async (query: IServiceQuery) => {
     },
     take: limit,
     skip: skip,
+
+    orderBy: {
+      [sortBy]: sortOrder,
+    },
   });
 
   return result;

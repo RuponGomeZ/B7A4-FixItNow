@@ -1,4 +1,4 @@
-interface ITechnician {
+export interface ITechnician {
   categoryId: string;
   bio: string;
   service: string;
@@ -9,4 +9,16 @@ interface ITechnician {
   description: string;
   price: number;
   duration: number;
+}
+
+export interface ITechnicianQuery {
+  limit?: number;
+  page?: number;
+  sortBy?: number;
+  sortOrder?: number;
+  hourlyRate?: string;
+  minAverageRating?: number;
+  minCompletedJobs?: number;
+  location?: string;
+  isAvailable?: boolean;
 }

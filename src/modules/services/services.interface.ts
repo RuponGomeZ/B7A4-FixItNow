@@ -1,3 +1,4 @@
+import { Category } from "../../../generated/prisma/client";
 import { ServiceWhereInput } from "../../../generated/prisma/models";
 
 export interface IService {
@@ -11,14 +12,13 @@ export interface IService {
 }
 
 export interface IServiceQuery extends ServiceWhereInput {
-  category?: string;
+  categoryId?: string;
   location?: string;
   minRating?: number;
-  isAvailable?: boolean;
   maxPrice?: number;
   page?: string;
   limit?: string;
   sortOrder?: string;
   sortBy?: string;
-  type: string;
+  type?: string;
 }

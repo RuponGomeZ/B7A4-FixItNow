@@ -25,7 +25,23 @@ const createTechnicianProfile = catchAsync(
 
 const getAllTechnician = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const result = await technicianService.getAllTechnicianFromDb();
+    const query = req.query;
+    const result = await technicianService.getAllTechnicianFromDb(query);
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Technician Profile Created Successfully",
+      data: result,
+    });
+  },
+);
+
+const getTechnicianById = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const id = req.params.id;
+    const result = await technicianService.getTechnicianByIdFromDb(
+      id as string,
+    );
     sendResponse(res, {
       success: true,
       statusCode: httpStatus.OK,
@@ -38,4 +54,5 @@ const getAllTechnician = catchAsync(
 export const technicianController = {
   createTechnicianProfile,
   getAllTechnician,
+  getTechnicianById,
 };

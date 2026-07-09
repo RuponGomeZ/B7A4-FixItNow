@@ -12,5 +12,6 @@ router.post(
 );
 
 router.get("/", technicianController.getAllTechnician);
+router.get("/:id", technicianController.getTechnicianById);
 
 export const technicianRouter = router;

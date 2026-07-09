@@ -1,4 +1,6 @@
+import { TechnicianProfileWhereInput } from "../../../generated/prisma/models";
 import { prisma } from "../../lib/prisma";
+import { ITechnician, ITechnicianQuery } from "./technician.interface";
 
 const createTechnicianProfileIntoDb = async (
   payload: ITechnician,
@@ -44,12 +46,80 @@ const createTechnicianProfileIntoDb = async (
   return transactionResult;
 };
 
-const getAllTechnicianFromDb = async () => {
-  const result = await prisma.technicianProfile.findMany();
+const getAllTechnicianFromDb = async (query: ITechnicianQuery) => {
+  const limit = query.limit ? Number(query.limit) : 10;
+  const page = query.page ? Number(query.page) : 1;
+  const skip = (page - 1) * limit;
+  const sortBy = query.sortBy ? query.sortBy : "createdAt";
+  const sortOrder = query.sortOrder ? query.sortOrder : "desc";
+
+  const andConditions: TechnicianProfileWhereInput[] = [];
+
+  if (query.minAverageRating) {
+    andConditions.push({
+      averageRating: { gte: Number(query.minAverageRating) },
+    });
+  }
+
+  if (query.hourlyRate) {
+    andConditions.push({
+      hourlyRate: Number(query.hourlyRate),
+    });
+  }
+
+  if (query.isAvailable !== undefined) {
+    const isAvailableParse = String(query.isAvailable).toLowerCase() === "true";
+    andConditions.push({
+      isAvailable: isAvailableParse,
+    });
+  }
+
+  if (query.location) {
+    andConditions.push({
+      location: query.location,
+    });
+  }
+
+  if (query.minCompletedJobs) {
+    andConditions.push({
+      completedJobs: { gte: Number(query.minCompletedJobs) },
+    });
+  }
+
+  const result = await prisma.technicianProfile.findMany({
+    where: {
+      AND: andConditions,
+    },
+    take: limit,
+    skip: skip,
+
+    orderBy: {
+      [sortBy]: sortOrder,
+    },
+  });
+
+  return result;
+};
+
+const getTechnicianByIdFromDb = async (technicianId: string) => {
+  const result = await prisma.technicianProfile.findUnique({
+    where: {
+      id: technicianId,
+    },
+    include: {
+      reviews: true,
+    },
+  });
+
+  if (!result) {
+    throw new Error("Technician Profile not found!");
+  }
+
   return result;
 };
 
 export const technicianService = {
   createTechnicianProfileIntoDb,
   getAllTechnicianFromDb,
+  getTechnicianByIdFromDb,
 };
