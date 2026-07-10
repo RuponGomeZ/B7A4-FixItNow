@@ -1,11 +1,32 @@
 import { prisma } from "../../lib/prisma";
-import { ICategory } from "./admin.interface";
+import { ICategory, IStatus } from "./admin.interface";
 
-const getAllUsersFromDb = async () => {};
+const getAllUsersFromDb = async () => {
+  const allUsers = await prisma.user.findMany();
+  return allUsers;
+};
 
-const updateUserStatusIntoDb = async () => {};
+const updateUserStatusIntoDb = async (payload: IStatus, userId: string) => {
+  const { status } = payload;
+  const updateStatus = status.toUpperCase();
 
-const getAllBookings = async () => {};
+  if (updateStatus !== "ACTIVE" && updateStatus !== "BANNED") {
+    throw new Error("You can only chance status to active or banned");
+  }
+  const updateUser = await prisma.user.update({
+    where: {
+      id: userId,
+    },
+    data: { status: updateStatus },
+  });
+
+  return updateUser;
+};
+
+const getAllBookings = async () => {
+  const allBookings = await prisma.booking.findMany();
+  return allBookings;
+};
 
 const createCategoryIntoDb = async (payload: ICategory) => {
   const { name, description } = payload;
