@@ -13,5 +13,10 @@ router.post(
 
 router.get("/", technicianController.getAllTechnician);
 router.get("/:id", technicianController.getTechnicianById);
+router.put(
+  "/update-profile",
+  auth(Role.TECHNICIAN),
+  technicianController.updateTechnicianProfile,
+);
 
 export const technicianRouter = router;

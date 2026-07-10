@@ -118,8 +118,36 @@ const getTechnicianByIdFromDb = async (technicianId: string) => {
   return result;
 };
 
+const updateTechnicianProfileIntoDb = async (
+  payload: ITechnician,
+  id: string,
+) => {
+  // const technicianProfile= await prisma.technicianProfile.findUniqueOrThrow({
+  //   where:{
+  //     userId:id
+  //   }
+  // })
+
+  const { bio, location, experience, hourlyRate } = payload;
+  const updatedProfile = await prisma.technicianProfile.update({
+    where: {
+      userId: id,
+    },
+    data: {
+      userId: id,
+      bio,
+      experience,
+      hourlyRate,
+      location,
+    },
+  });
+
+  return updatedProfile;
+};
+
 export const technicianService = {
   createTechnicianProfileIntoDb,
   getAllTechnicianFromDb,
   getTechnicianByIdFromDb,
+  updateTechnicianProfileIntoDb,
 };

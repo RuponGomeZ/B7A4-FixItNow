@@ -11,4 +11,10 @@ router.post(
   availabilityController.createAvailability,
 );
 
+router.put(
+  "/",
+  auth(Role.TECHNICIAN),
+  availabilityController.updateAvailability,
+);
+
 export const availabilityRouter = router;

@@ -6,10 +6,10 @@ import { availabilityService } from "./availability.service";
 const createAvailability = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const payload = req.body;
-    const technicianId = req.user?.id;
+    const userId = req.user?.id;
     const result = await availabilityService.createAvailabilityIntoDb(
       payload,
-      technicianId as string,
+      userId as string,
     );
 
     sendResponse(res, {
@@ -21,4 +21,24 @@ const createAvailability = catchAsync(
   },
 );
 
-export const availabilityController = { createAvailability };
+const updateAvailability = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const payload = req.body;
+    const id = req.body.id;
+    const result = await availabilityService.updateAvailabilityIntoDb(
+      payload,
+      id,
+    );
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Availability updated successfully",
+      data: result,
+    });
+  },
+);
+
+export const availabilityController = {
+  createAvailability,
+  updateAvailability,
+};

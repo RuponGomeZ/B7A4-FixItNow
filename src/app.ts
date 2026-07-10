@@ -10,6 +10,7 @@ import { technicianRouter } from "./modules/technician/technician.route";
 import { categoryRouter } from "./modules/category/category.route";
 import { serviceRouter } from "./modules/services/services.route";
 import { availabilityRouter } from "./modules/availibility/availability.route";
+import { notFound } from "./middlewares/notFound";
 
 const app: Application = express();
 
@@ -35,5 +36,6 @@ app.use("/api/admin/categories", categoryRouter);
 app.use("/api/services", serviceRouter);
 app.use("/api/availability", availabilityRouter);
 
+app.use(notFound);
 app.use(globalErrorHandler);
 export default app;
