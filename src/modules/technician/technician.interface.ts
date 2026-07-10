@@ -1,3 +1,5 @@
+import { BookingStatus } from "../../../generated/prisma/enums";
+
 export interface ITechnician {
   categoryId: string;
   bio: string;
@@ -20,4 +22,8 @@ export interface ITechnicianQuery {
   minCompletedJobs?: number;
   location?: string;
   isAvailable?: boolean;
+}
+
+export interface IStatus {
+  status: BookingStatus;
 }

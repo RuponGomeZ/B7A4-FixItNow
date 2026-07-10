@@ -14,7 +14,10 @@ const registerUserIntoDb = async (payload: RegisterUserPayload) => {
   if (isExist) {
     throw new Error("User with this email location already exist!");
   }
-  if (role === "ADMIN") {
+
+  const roleToUpperCase = role.toUpperCase();
+
+  if (roleToUpperCase === "ADMIN") {
     throw new Error("You are not allowed to set this role");
   }
   const hashedPassword = await bcrypt.hash(
@@ -24,7 +27,7 @@ const registerUserIntoDb = async (payload: RegisterUserPayload) => {
 
   let user;
 
-  if (role === "CUSTOMER") {
+  if (roleToUpperCase === "CUSTOMER") {
     user = await prisma.user.create({
       data: {
         name,
@@ -32,13 +35,13 @@ const registerUserIntoDb = async (payload: RegisterUserPayload) => {
         password: hashedPassword,
         location,
         phone,
-        role,
+        role: roleToUpperCase,
         profileImage,
       },
     });
   }
 
-  if (role === "TECHNICIAN") {
+  if (roleToUpperCase === "TECHNICIAN") {
     user = await prisma.user.create({
       data: {
         name,
@@ -46,7 +49,7 @@ const registerUserIntoDb = async (payload: RegisterUserPayload) => {
         password: hashedPassword,
         location,
         phone,
-        role,
+        role: roleToUpperCase,
         profileImage,
       },
     });

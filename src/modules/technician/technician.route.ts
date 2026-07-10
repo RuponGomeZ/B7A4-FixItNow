@@ -12,11 +12,31 @@ router.post(
 );
 
 router.get("/", technicianController.getAllTechnician);
-router.get("/:id", technicianController.getTechnicianById);
+
+router.get("/profile/:id", technicianController.getTechnicianById);
+
+router.get(
+  "/me",
+  auth(Role.TECHNICIAN),
+  technicianController.getMyTechnicianProfile,
+);
+
 router.put(
   "/update-profile",
   auth(Role.TECHNICIAN),
   technicianController.updateTechnicianProfile,
+);
+
+router.get(
+  "/bookings",
+  auth(Role.TECHNICIAN),
+  technicianController.getTechniciansBookings,
+);
+
+router.patch(
+  "/booking/:id",
+  auth(Role.TECHNICIAN),
+  technicianController.updateBookingStatus,
 );
 
 export const technicianRouter = router;

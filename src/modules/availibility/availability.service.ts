@@ -5,25 +5,34 @@ const createAvailabilityIntoDb = async (
   payload: IAvailability,
   userId: string,
 ) => {
-  const { date, endTime, isBooked, startTime } = payload;
-  const getTechnicianProfile = await prisma.technicianProfile.findUniqueOrThrow(
-    {
+  const transactionResult = await prisma.$transaction(async (tx) => {
+    const { date, endTime, isBooked, startTime } = payload;
+    const getTechnicianProfile = await tx.technicianProfile.findUniqueOrThrow({
       where: {
         userId,
       },
-    },
-  );
-  const createAvailability = await prisma.availability.create({
-    data: {
-      technicianProfileId: getTechnicianProfile.id,
-      date,
-      endTime,
-      isBooked,
-      startTime,
-    },
-  });
+    });
 
-  return createAvailability;
+    const isAvailabilityExist = await tx.availability.findFirst({
+      where: { technicianProfileId: getTechnicianProfile.id },
+    });
+
+    if (isAvailabilityExist) {
+      throw new Error("You have already set your available slots");
+    }
+
+    const createAvailability = await tx.availability.create({
+      data: {
+        technicianProfileId: getTechnicianProfile.id,
+        date,
+        endTime,
+        isBooked,
+        startTime,
+      },
+    });
+
+    return createAvailability;
+  });
 };
 
 const updateAvailabilityIntoDb = async (payload: IAvailability, id: string) => {

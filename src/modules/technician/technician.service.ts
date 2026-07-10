@@ -1,6 +1,6 @@
 import { TechnicianProfileWhereInput } from "../../../generated/prisma/models";
 import { prisma } from "../../lib/prisma";
-import { ITechnician, ITechnicianQuery } from "./technician.interface";
+import { IStatus, ITechnician, ITechnicianQuery } from "./technician.interface";
 
 const createTechnicianProfileIntoDb = async (
   payload: ITechnician,
@@ -90,6 +90,7 @@ const getAllTechnicianFromDb = async (query: ITechnicianQuery) => {
     where: {
       AND: andConditions,
     },
+    include: { user: true },
     take: limit,
     skip: skip,
 
@@ -122,12 +123,6 @@ const updateTechnicianProfileIntoDb = async (
   payload: ITechnician,
   id: string,
 ) => {
-  // const technicianProfile= await prisma.technicianProfile.findUniqueOrThrow({
-  //   where:{
-  //     userId:id
-  //   }
-  // })
-
   const { bio, location, experience, hourlyRate } = payload;
   const updatedProfile = await prisma.technicianProfile.update({
     where: {
@@ -145,9 +140,65 @@ const updateTechnicianProfileIntoDb = async (
   return updatedProfile;
 };
 
+const getMyTechnicianProfileFromDb = async (userId: string) => {
+  const myTechnicianProfile = await prisma.technicianProfile.findUniqueOrThrow({
+    where: {
+      userId,
+    },
+    include: {
+      availability: true,
+    },
+  });
+
+  return myTechnicianProfile;
+};
+
+const getTechniciansBookings = async (userId: string) => {
+  const getTechnician = await prisma.technicianProfile.findUniqueOrThrow({
+    where: {
+      userId,
+    },
+  });
+
+  const bookings = await prisma.booking.findMany({
+    where: {
+      technicianId: getTechnician.id,
+    },
+  });
+
+  if (!bookings) {
+    throw new Error("No booking found for this technician");
+  }
+
+  return bookings;
+};
+
+const updateBookingStatusInDb = async (bookingId: string, payload: IStatus) => {
+  const status = payload.status.toUpperCase();
+  if (
+    status !== "ACCEPTED" &&
+    status !== "DECLINED" &&
+    status !== "COMPLETED"
+  ) {
+    throw new Error("Status type not allowed. Please select accept or decline");
+  }
+  const updateStatus = await prisma.booking.update({
+    where: {
+      id: bookingId,
+    },
+    data: {
+      status,
+    },
+  });
+  return updateStatus;
+};
+
 export const technicianService = {
   createTechnicianProfileIntoDb,
   getAllTechnicianFromDb,
   getTechnicianByIdFromDb,
   updateTechnicianProfileIntoDb,
+  getMyTechnicianProfileFromDb,
+  getTechniciansBookings,
+  updateBookingStatusInDb,
 };

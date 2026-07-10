@@ -11,6 +11,8 @@ import { categoryRouter } from "./modules/category/category.route";
 import { serviceRouter } from "./modules/services/services.route";
 import { availabilityRouter } from "./modules/availibility/availability.route";
 import { notFound } from "./middlewares/notFound";
+import { bookingRouter } from "./modules/booking/booking.router";
+import { reviewRouter } from "./modules/reviews/review.route";
 
 const app: Application = express();
 
@@ -35,7 +37,10 @@ app.use("/api/technician", technicianRouter);
 app.use("/api/admin/categories", categoryRouter);
 app.use("/api/services", serviceRouter);
 app.use("/api/availability", availabilityRouter);
+app.use("/api/booking", bookingRouter);
+app.use("/api/reviews", reviewRouter);
 
 app.use(notFound);
 app.use(globalErrorHandler);
+
 export default app;

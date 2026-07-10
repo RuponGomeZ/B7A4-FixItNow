@@ -69,9 +69,62 @@ const updateTechnicianProfile = catchAsync(
   },
 );
 
+const getMyTechnicianProfile = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    console.log("From tech profile test");
+    const userId = req.user?.id;
+    const result = await technicianService.getMyTechnicianProfileFromDb(
+      userId as string,
+    );
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Technician Profile retrieved Successfully",
+      data: result,
+    });
+  },
+);
+
+const getTechniciansBookings = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const userId = req.user?.id as string;
+
+    const result = await technicianService.getTechniciansBookings(userId);
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "All bookings for logged in technician retrieved",
+      data: result,
+    });
+  },
+);
+
+const updateBookingStatus = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const bookingId = req.params.id as string;
+    const payload = req.body;
+    const result = await technicianService.updateBookingStatusInDb(
+      bookingId,
+      payload,
+    );
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Booking status updated successfully",
+      data: result,
+    });
+  },
+);
+
 export const technicianController = {
   createTechnicianProfile,
   getAllTechnician,
   getTechnicianById,
   updateTechnicianProfile,
+  getMyTechnicianProfile,
+  getTechniciansBookings,
+  updateBookingStatus,
 };

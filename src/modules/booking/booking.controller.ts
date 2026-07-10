@@ -6,7 +6,7 @@ import httpStatus from "http-status";
 const createBooking = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const payload = req.body;
-    const customerId = req.user?.id;
+    const customerId = req.user?.id as string;
     const result = await bookingService.createBookingIntoDb(
       payload,
       customerId,
@@ -21,6 +21,36 @@ const createBooking = catchAsync(
   },
 );
 
+const getUsersBooking = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const customerId = req.user?.id as string;
+    const result = await bookingService.getUsersBookingFromDb(customerId);
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "All bookings for logged in customer retrieved",
+      data: result,
+    });
+  },
+);
+
+const getBookingById = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const bookingId = req.params.id as string;
+
+    const result = await bookingService.getBookingByIdFromDb(bookingId);
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Booking details retrieved",
+      data: result,
+    });
+  },
+);
+
 export const bookingController = {
   createBooking,
+  getUsersBooking,
+  getBookingById,
 };
