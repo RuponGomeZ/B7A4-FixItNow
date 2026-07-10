@@ -7,12 +7,12 @@ import { globalErrorHandler } from "./middlewares/globalErrorHandler";
 import { authController } from "./modules/auth/auth.controller";
 import { authRouter } from "./modules/auth/auth.route";
 import { technicianRouter } from "./modules/technician/technician.route";
-import { categoryRouter } from "./modules/category/category.route";
 import { serviceRouter } from "./modules/services/services.route";
-import { availabilityRouter } from "./modules/availibility/availability.route";
+import { availabilityRouter } from "./modules/availability/availability.route";
 import { notFound } from "./middlewares/notFound";
 import { bookingRouter } from "./modules/booking/booking.router";
 import { reviewRouter } from "./modules/reviews/review.route";
+import { adminRouter } from "./modules/admin/admin.route";
 
 const app: Application = express();
 
@@ -34,7 +34,7 @@ app.get("/", (req: Request, res: Response) => {
 app.use("/api/users", userRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/technician", technicianRouter);
-app.use("/api/admin/categories", categoryRouter);
+app.use("/api/admin/", adminRouter);
 app.use("/api/services", serviceRouter);
 app.use("/api/availability", availabilityRouter);
 app.use("/api/booking", bookingRouter);

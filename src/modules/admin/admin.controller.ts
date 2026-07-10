@@ -1,13 +1,13 @@
 import { NextFunction, Request, Response } from "express";
 import { catchAsync, sendResponse } from "../../utils/catchAsync";
-import { categoryService } from "./category.service";
 import httpStatus from "http-status";
+import { adminService } from "./admin.service";
 
 const createCategory = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const payload = req.body;
 
-    const result = await categoryService.createCategoryIntoDb(payload);
+    const result = await adminService.createCategoryIntoDb(payload);
 
     sendResponse(res, {
       success: true,
@@ -20,7 +20,7 @@ const createCategory = catchAsync(
 
 const getAllCategory = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const result = await categoryService.getAllCategory();
+    const result = await adminService.getAllCategoriesFromDb();
 
     sendResponse(res, {
       success: true,
@@ -31,7 +31,7 @@ const getAllCategory = catchAsync(
   },
 );
 
-export const categoryController = {
+export const adminController = {
   createCategory,
   getAllCategory,
 };

@@ -1,5 +1,11 @@
 import { prisma } from "../../lib/prisma";
-import { ICategory } from "./category.interface";
+import { ICategory } from "./admin.interface";
+
+const getAllUsersFromDb = async () => {};
+
+const updateUserStatusIntoDb = async () => {};
+
+const getAllBookings = async () => {};
 
 const createCategoryIntoDb = async (payload: ICategory) => {
   const { name, description } = payload;
@@ -14,13 +20,16 @@ const createCategoryIntoDb = async (payload: ICategory) => {
   return createCategory;
 };
 
-const getAllCategory = async () => {
+const getAllCategoriesFromDb = async () => {
   const allCategory = await prisma.category.findMany();
 
   return allCategory;
 };
 
-export const categoryService = {
+export const adminService = {
+  getAllUsersFromDb,
+  updateUserStatusIntoDb,
+  getAllBookings,
   createCategoryIntoDb,
-  getAllCategory,
+  getAllCategoriesFromDb,
 };
