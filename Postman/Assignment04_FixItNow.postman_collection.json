@@ -963,7 +963,7 @@
               }
             },
             "url": {
-              "raw": "http://localhost:5000/api/payments/eab248fa-e99b-405c-ad2c-48a1cd876094",
+              "raw": "http://localhost:5000/api/payments/details/0c4557b2-a1e3-4520-a936-edecaae4b363",
               "protocol": "http",
               "host": [
                 "localhost"
@@ -972,7 +972,8 @@
               "path": [
                 "api",
                 "payments",
-                "eab248fa-e99b-405c-ad2c-48a1cd876094"
+                "details",
+                "0c4557b2-a1e3-4520-a936-edecaae4b363"
               ]
             }
           },

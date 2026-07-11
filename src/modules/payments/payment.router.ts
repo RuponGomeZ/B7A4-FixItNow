@@ -15,6 +15,6 @@ router.post("/webhook", paymentController.handleWebhook);
 
 router.get("/", auth(Role.CUSTOMER), paymentController.getPayment);
 
-router.get("/details/:paymentId", paymentController.getPaymentDetails);
+router.get("/details/:id", paymentController.getPaymentDetails);
 
 export const paymentRouter = router;
