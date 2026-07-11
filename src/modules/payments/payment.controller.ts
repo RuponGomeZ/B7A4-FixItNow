@@ -23,9 +23,16 @@ const createCheckOutSession = catchAsync(
 
 const handleWebhook = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    //  const payload = req.body;
-    // const signature = req.headers["stripe-signature"];
-    // await paymentService.
+    const event = req.body;
+    const signature = req.headers["stripe-signature"];
+    await paymentService.handleWebhook(event, signature as string);
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Checkout completed successfully",
+      data: null,
+    });
   },
 );
 

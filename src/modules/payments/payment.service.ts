@@ -29,21 +29,30 @@ const createCheckOutSessionIntoDB = async (
       stripeCustomerId = customer.id;
     }
 
-    const bookingDetails = await tx.booking.findUniqueOrThrow({
+    const bookingDetails = await tx.booking.findUnique({
       where: {
         id: bookingId,
       },
     });
 
-    const serviceDetails = await tx.service.findUniqueOrThrow({
+    if (!bookingDetails) {
+      throw new Error("The booking you are trying to pay, was not found");
+    }
+
+    const serviceDetails = await tx.service.findUnique({
       where: {
-        id: bookingId,
+        id: bookingDetails.serviceId,
       },
     });
+
+    if (!serviceDetails) {
+      throw new Error("Service details not found");
+    }
 
     const price = Math.round(Number(bookingDetails.totalPrice) * 100);
 
     const session = await stripe.checkout.sessions.create({
+      mode: "payment",
       line_items: [
         {
           quantity: 1,
@@ -57,8 +66,8 @@ const createCheckOutSessionIntoDB = async (
         },
       ],
       customer: stripeCustomerId,
-      success_url: `${config.app_url}/premium?success=true`,
-      cancel_url: `${config.app_url}/premium?success=false`,
+      success_url: `${config.app_url}/paid?success=true`,
+      cancel_url: `${config.app_url}/paid?success=false`,
       metadata: { userId: user.id },
     });
 
@@ -69,7 +78,7 @@ const createCheckOutSessionIntoDB = async (
   };
 };
 
-const handleWebhook = async () => {};
+const handleWebhook = async (payload: Buffer, signature: string) => {};
 
 export const paymentService = {
   createCheckOutSessionIntoDB,
