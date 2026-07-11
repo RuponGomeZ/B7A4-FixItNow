@@ -2,6 +2,7 @@ import config from "../../config";
 import { prisma } from "../../lib/prisma";
 import { stripe } from "../../lib/stripe";
 import { IPaymentPayload } from "./payment.interface";
+import { handleCheckOutCompleted } from "./payment.utils";
 
 const createCheckOutSessionIntoDB = async (
   userId: string,
@@ -68,7 +69,7 @@ const createCheckOutSessionIntoDB = async (
       customer: stripeCustomerId,
       success_url: `${config.app_url}/paid?success=true`,
       cancel_url: `${config.app_url}/paid?success=false`,
-      metadata: { userId: user.id },
+      metadata: { userId: user.id, bookingId },
     });
 
     return session.url;
@@ -78,7 +79,23 @@ const createCheckOutSessionIntoDB = async (
   };
 };
 
-const handleWebhook = async (payload: Buffer, signature: string) => {};
+const handleWebhook = async (payload: Buffer, signature: string) => {
+  const endpointSecret = config.stripe_webhook_secret;
+  const event = stripe.webhooks.constructEvent(
+    payload,
+    signature,
+    endpointSecret,
+  );
+
+  switch (event.type) {
+    case "checkout.session.completed":
+      await handleCheckOutCompleted(event.data.object);
+      break;
+
+    default:
+      console.log(`No events matched to ${event.type}`);
+  }
+};
 
 export const paymentService = {
   createCheckOutSessionIntoDB,
