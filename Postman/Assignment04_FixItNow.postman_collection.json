@@ -16,7 +16,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"name\": \"Customer 2\",\r\n  \"email\": \"customer2@gmail.com\",\r\n  \"password\": \"1234\",\r\n  \"location\": \"Dhaka\",\r\n  \"phone\": \"+8801712345678\",\r\n  \"role\":\"Customer\",\r\n  \"profileImage\": \"https://i.pravatar.cc/300?img=1\"\r\n}",
+              "raw": "{\r\n  \"name\": \"new technician\",\r\n  \"email\": \"newtechnician@gmail.com\",\r\n  \"password\": \"1234\",\r\n  \"location\": \"Dhaka\",\r\n  \"phone\": \"+8801712345678\",\r\n  \"role\":\"technician\",\r\n  \"profileImage\": \"https://i.pravatar.cc/300?img=1\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -93,7 +93,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n   \"email\": \"customer@gmail.com\",\r\n  \"password\": \"1234\"\r\n}",
+              "raw": "{\r\n   \"email\": \"customer2@gmail.com\",\r\n  \"password\": \"1234\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -137,7 +137,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n\"bio\": \"I fix everything from leaks to electrical issues. Fast response, clear pricing.\",\r\n\"experience\": 5,\r\n\"hourlyRate\": 40.00,\r\n\"service\": [\"Home Repair\", \"Plumbing\", \"Electrical\"],\r\n\"location\": \"Dhaka\"\r\n}\r\n\r\n",
+              "raw": "{\r\n    \"bio\": \"I fix everything from leaks to electrical issues. Fast response, clear pricing.\",\r\n    \"experience\": 7,\r\n    \"hourlyRate\": 89.00,\r\n    \"service\": [\r\n        \"Home Repair\",\r\n        \"Plumbing\",\r\n        \"Electrical\"\r\n    ],\r\n    \"location\": \"Dhaka\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -161,7 +161,7 @@
           "response": []
         },
         {
-          "name": "Create Profile Copy",
+          "name": "update Profile",
           "request": {
             "auth": {
               "type": "noauth"
@@ -176,7 +176,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n\"bio\": \"I fix nothing\",\r\n\"experience\": 20,\r\n\"hourlyRate\": 100.50,\r\n\"service\": [\"Home Repair\", \"Plumbing\", \"Electrical\"],\r\n\"location\": \"Dhaka\"\r\n}\r\n\r\n",
+              "raw": "{\r\n\"bio\": \"I fix PC\",\r\n\"experience\": 12,\r\n\"hourlyRate\": 150.00,\r\n\"service\": [\"Home Repair\", \"Plumbing\", \"Electrical\"],\r\n\"location\": \"Dhaka\"\r\n}\r\n\r\n",
               "options": {
                 "raw": {
                   "language": "json"
@@ -329,7 +329,7 @@
               }
             },
             "url": {
-              "raw": "http://localhost:5000/api/technician/booking/eab248fa-e99b-405c-ad2c-48a1cd87609e",
+              "raw": "http://localhost:5000/api/technician/booking/5248ed8a-616c-46ab-87cb-5ffbe1f0c267",
               "protocol": "http",
               "host": [
                 "localhost"
@@ -339,7 +339,7 @@
                 "api",
                 "technician",
                 "booking",
-                "eab248fa-e99b-405c-ad2c-48a1cd87609e"
+                "5248ed8a-616c-46ab-87cb-5ffbe1f0c267"
               ],
               "query": [
                 {
@@ -374,7 +374,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"name\": \"Cleaning\",\r\n  \"description\": \"Full house cleaning\"\r\n}\r\n",
+              "raw": "{\r\n  \"name\": \"Pc Repear\",\r\n  \"description\": \"Full house cleaning\"\r\n}\r\n",
               "options": {
                 "raw": {
                   "language": "json"
@@ -569,7 +569,7 @@
               "raw": "{\r\n \"email\": \"john.doe@example.com\",\r\n  \"password\": \"John@1234\"\r\n}"
             },
             "url": {
-              "raw": "http://localhost:5000/api/services?sortOrder=asc",
+              "raw": "http://localhost:5000/api/services",
               "protocol": "http",
               "host": [
                 "localhost"
@@ -617,7 +617,7 @@
                 {
                   "key": "sortOrder",
                   "value": "asc",
-                  "type": "text"
+                  "disabled": true
                 }
               ]
             }
@@ -631,7 +631,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n\"categoryId\": \"5d806722-c462-420f-959b-9871a15fd4e3\",\r\n\"serviceTitle\": \"AC Repair\",\r\n\"description\": \"Repair and servicing for air conditioners\",\r\n\"price\": 150,\r\n\"duration\": 2,\r\n\"technicianId\": \"8bef2c75-38f4-4c46-a271-2983df822121\",\r\n\"location\": \"Gazipur\"\r\n}",
+              "raw": "{\r\n\"categoryId\": \"5d806722-c462-420f-959b-9871a15fd4e3\",\r\n\"serviceTitle\": \"pc destroy\",\r\n\"description\": \"Repair and servicing for air conditioners\",\r\n\"price\": 200,\r\n\"duration\": 2,\r\n\"technicianId\": \"8bef2c75-38f4-4c46-a271-2983df822121\",\r\n\"location\": \"Gazipur\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -728,7 +728,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"technicianIdToBook\": \"78b1860e-a839-4b69-9db3-4b0a1a40a7b2\",\r\n  \"serviceId\": \"161d9d7e-e640-4b8d-9c97-892c3aca77b8\",\r\n  \"availabilitySlotId\": \"3d6aea3b-8e17-491e-8507-307e5f35b3c6\",\r\n  \"bookingTime\": \"2026-07-10T10:30:00.000Z\",\r\n  \"customerAddress\": \"221B Baker Street, London\",\r\n  \"note\": \"Please arrive 10 minutes early\",\r\n  \"totalPrice\": 99.99\r\n}\r\n",
+              "raw": "{\r\n  \"technicianIdToBook\": \"ceb03d58-cc6f-4a29-a1ac-d7301e5e5839\",\r\n  \"serviceId\": \"2dd1c064-06be-41ba-ab1f-544b8992a1c6\",\r\n  \"availabilitySlotId\": \"a52aac63-0bce-4795-b425-31653795ed5c\",\r\n  \"bookingTime\": \"2026-07-10T10:30:00.000Z\",\r\n  \"customerAddress\": \"221B Baker Street, London\",\r\n  \"note\": \"Please arrive 10 minutes early\"\r\n}\r\n",
               "options": {
                 "raw": {
                   "language": "json"
@@ -871,7 +871,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"bookingId\":\"eab248fa-e99b-405c-ad2c-48a1cd87609e\"\r\n\r\n}\r\n",
+              "raw": "{\r\n  \"bookingId\":\"5248ed8a-616c-46ab-87cb-5ffbe1f0c267\"\r\n\r\n}\r\n",
               "options": {
                 "raw": {
                   "language": "json"
