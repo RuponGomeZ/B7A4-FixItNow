@@ -71,7 +71,7 @@ const createCheckOutSessionIntoDB = async (
       cancel_url: `${config.app_url}/paid?success=false`,
       metadata: { userId: user.id, bookingId },
     });
-
+    console.log("from meta", session.metadata);
     return session.url;
   });
   return {
