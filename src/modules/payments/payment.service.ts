@@ -97,7 +97,29 @@ const handleWebhook = async (payload: Buffer, signature: string) => {
   }
 };
 
+const getPaymentsFromDb = async (userId: string) => {
+  const getPayments = await prisma.payment.findMany({
+    where: {
+      customerId: userId,
+    },
+  });
+
+  return getPayments;
+};
+
+const getPaymentByIdFromDB = async (paymentId: string) => {
+  const getPaymentDetails = await prisma.payment.findUniqueOrThrow({
+    where: {
+      id: paymentId,
+    },
+  });
+
+  return getPaymentDetails;
+};
+
 export const paymentService = {
   createCheckOutSessionIntoDB,
   handleWebhook,
+  getPaymentsFromDb,
+  getPaymentByIdFromDB,
 };
