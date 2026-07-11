@@ -13,6 +13,7 @@ import { notFound } from "./middlewares/notFound";
 import { bookingRouter } from "./modules/booking/booking.router";
 import { reviewRouter } from "./modules/reviews/review.route";
 import { adminRouter } from "./modules/admin/admin.route";
+import { paymentRouter } from "./modules/payments/payment.router";
 
 const app: Application = express();
 
@@ -38,6 +39,7 @@ app.use("/api/admin/", adminRouter);
 app.use("/api/services", serviceRouter);
 app.use("/api/availability", availabilityRouter);
 app.use("/api/booking", bookingRouter);
+app.use("/api/payments", paymentRouter);
 app.use("/api/reviews", reviewRouter);
 
 app.use(notFound);

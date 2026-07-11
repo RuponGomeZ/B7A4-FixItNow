@@ -1,14 +1,14 @@
 model User {
-  id           String  @id @default(uuid())
-  name         String  @db.VarChar(255)
-  email        String  @unique
-  password     String
-  phone        String
-  location     String  @db.VarChar(255)
-  role         Role    @default(CUSTOMER)
-  status       Status  @default(ACTIVE)
-  profileImage String? @db.VarChar(255)
-
+  id                String             @id @default(uuid())
+  name              String             @db.VarChar(255)
+  email             String             @unique
+  password          String
+  phone             String
+  location          String             @db.VarChar(255)
+  role              Role               @default(CUSTOMER)
+  status            Status             @default(ACTIVE)
+  profileImage      String?            @db.VarChar(255)
+  stripeCustomerId  String?
   technicianProfile TechnicianProfile?
   bookings          Booking[]
   payments          Payment[]
