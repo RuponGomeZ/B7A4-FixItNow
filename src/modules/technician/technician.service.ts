@@ -174,23 +174,37 @@ const getTechniciansBookings = async (userId: string) => {
 };
 
 const updateBookingStatusInDb = async (bookingId: string, payload: IStatus) => {
-  const status = payload.status.toUpperCase();
-  if (
-    status !== "ACCEPTED" &&
-    status !== "DECLINED" &&
-    status !== "COMPLETED"
-  ) {
-    throw new Error("Status type not allowed. Please select accept or decline");
-  }
-  const updateStatus = await prisma.booking.update({
-    where: {
-      id: bookingId,
-    },
-    data: {
-      status,
-    },
+  const transactionResult = await prisma.$transaction(async (tx) => {
+    const status = payload.status.toUpperCase();
+    if (
+      status !== "ACCEPTED" &&
+      status !== "DECLINED" &&
+      status !== "COMPLETED"
+    ) {
+      throw new Error(
+        "Status type not allowed. Please select accept or decline",
+      );
+    }
+
+    const updateStatus = await tx.booking.update({
+      where: {
+        id: bookingId,
+      },
+      data: {
+        status,
+      },
+    });
+    const updateAvailabilityStatus = await tx.availability.update({
+      where: {
+        id: updateStatus.availabilitySlotId,
+      },
+      data: {
+        isBooked: true,
+      },
+    });
+    return { updateStatus, updateAvailabilityStatus };
   });
-  return updateStatus;
+  return transactionResult;
 };
 
 export const technicianService = {

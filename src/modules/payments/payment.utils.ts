@@ -16,12 +16,11 @@ export const handleCheckOutCompleted = async (
     return;
   }
 
-  const stripeTransaction = await stripe.paymentIntents.retrieve(
-    transactionId as string,
-  );
+  // Use amount already present on the checkout session to avoid extra Stripe API calls
+  const amountInCents = session.amount_total;
+  if (!amountInCents) return;
 
-  if (stripeTransaction.amount == null) return;
-  const amount = new Prisma.Decimal(stripeTransaction.amount / 100);
+  const amount = new Prisma.Decimal(amountInCents / 100);
 
   await prisma.payment.upsert({
     where: {

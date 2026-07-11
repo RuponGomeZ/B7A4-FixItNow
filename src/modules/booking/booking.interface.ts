@@ -7,7 +7,6 @@ export interface IBooking {
   technicianIdToBook: string;
   customerAddress: string;
   note: string;
-  totalPrice: number;
   timeSlotId: string;
   bookingTime: string;
 }

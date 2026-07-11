@@ -10,9 +10,11 @@ router.post(
   auth(Role.ADMIN, Role.CUSTOMER, Role.TECHNICIAN),
   paymentController.createCheckOutSession,
 );
+
 router.post("/webhook", paymentController.handleWebhook);
 
 router.get("/", auth(Role.CUSTOMER), paymentController.getPayment);
+
 router.get("/details/:paymentId", paymentController.getPaymentDetails);
 
 export const paymentRouter = router;

@@ -8,7 +8,6 @@ const createTechnicianProfile = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const payload = req.body;
     const { id } = req.user as JwtPayload;
-    console.log("from bio", payload);
     const createProfile = await technicianService.createTechnicianProfileIntoDb(
       payload,
       id,
@@ -71,7 +70,6 @@ const updateTechnicianProfile = catchAsync(
 
 const getMyTechnicianProfile = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    console.log("From tech profile test");
     const userId = req.user?.id;
     const result = await technicianService.getMyTechnicianProfileFromDb(
       userId as string,

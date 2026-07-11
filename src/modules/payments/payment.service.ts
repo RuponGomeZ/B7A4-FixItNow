@@ -36,8 +36,10 @@ const createCheckOutSessionIntoDB = async (
       },
     });
 
-    if (!bookingDetails) {
-      throw new Error("The booking you are trying to pay, was not found");
+    if (!bookingDetails || bookingDetails.status !== "ACCEPTED") {
+      throw new Error(
+        "The booking you are trying to pay, was not found or accepted",
+      );
     }
 
     const serviceDetails = await tx.service.findUnique({
@@ -71,7 +73,7 @@ const createCheckOutSessionIntoDB = async (
       cancel_url: `${config.app_url}/paid?success=false`,
       metadata: { userId: user.id, bookingId },
     });
-    console.log("from meta", session.metadata);
+
     return session.url;
   });
   return {
@@ -91,6 +93,8 @@ const handleWebhook = async (payload: Buffer, signature: string) => {
     case "checkout.session.completed":
       await handleCheckOutCompleted(event.data.object);
       break;
+
+    // case "payment_intent.succeeded"
 
     default:
       console.log(`No events matched to ${event.type}`);

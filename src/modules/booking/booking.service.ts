@@ -9,7 +9,6 @@ const createBookingIntoDb = async (payload: IBooking, customerId: string) => {
     bookingTime,
     customerAddress,
     note,
-    totalPrice,
   } = payload;
 
   const isBookingExist = await prisma.booking.findFirst({
@@ -23,6 +22,12 @@ const createBookingIntoDb = async (payload: IBooking, customerId: string) => {
     throw new Error("This technician is not available at this given time");
   }
 
+  const getBookingPrice = await prisma.service.findUniqueOrThrow({
+    where: {
+      id: serviceId,
+    },
+  });
+
   const createBooking = await prisma.booking.create({
     data: {
       customerId,
@@ -31,7 +36,7 @@ const createBookingIntoDb = async (payload: IBooking, customerId: string) => {
       bookingTime,
       customerAddress,
       note,
-      totalPrice,
+      totalPrice: getBookingPrice.price,
       serviceId,
     },
   });

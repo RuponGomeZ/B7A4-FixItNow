@@ -25,12 +25,13 @@ const handleWebhook = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const event = req.body;
     const signature = req.headers["stripe-signature"];
+
     await paymentService.handleWebhook(event, signature as string);
 
     sendResponse(res, {
       success: true,
       statusCode: httpStatus.OK,
-      message: "Checkout completed successfully",
+      message: "Webhook triggered successfully",
       data: null,
     });
   },
@@ -43,7 +44,7 @@ const getPayment = catchAsync(
     sendResponse(res, {
       success: true,
       statusCode: httpStatus.OK,
-      message: "Checkout completed successfully",
+      message: "payments  retrieved successfully",
       data: result,
     });
   },
@@ -57,7 +58,7 @@ const getPaymentDetails = catchAsync(
     sendResponse(res, {
       success: true,
       statusCode: httpStatus.OK,
-      message: "Checkout completed successfully",
+      message: "payments details retrieved successfully",
       data: result,
     });
   },
