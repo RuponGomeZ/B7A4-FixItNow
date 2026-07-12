@@ -30,6 +30,9 @@ const getAllBookings = async () => {
 
 const createCategoryIntoDb = async (payload: ICategory) => {
   const { name, description } = payload;
+  if (!name && !description) {
+    throw new Error("Required field can not be empty");
+  }
 
   const createCategory = await prisma.category.create({
     data: {

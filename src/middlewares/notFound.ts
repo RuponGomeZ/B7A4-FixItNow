@@ -1,9 +1,15 @@
 import { Request, Response } from "express";
+import httpStatus from "http-status";
 
 export const notFound = (req: Request, res: Response) => {
-  res.status(404).json({
+  res.status(httpStatus.NOT_FOUND).json({
+    success: false,
     message: "Route not found!",
-    path: req.originalUrl,
-    date: new Date(),
+    errorDetails: {
+      statusCode: httpStatus.NOT_FOUND,
+      path: req.originalUrl,
+      method: req.method,
+      timestamp: new Date().toISOString(),
+    },
   });
 };

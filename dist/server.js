@@ -474,14 +474,17 @@ var userRouter = router;
 // src/middlewares/globalErrorHandler.ts
 import httpStatus2 from "http-status";
 var globalErrorHandler = (err, req, res, next) => {
-  let errorMessage = err.message || "Internal server error";
-  let errorName = err.name || "Internal Server Error";
-  res.status(httpStatus2.INTERNAL_SERVER_ERROR).json({
+  let statusCode = err.statusCode || httpStatus2.INTERNAL_SERVER_ERROR;
+  let message = err.message || "Internal server error";
+  res.status(statusCode).json({
     success: false,
-    statusCode: httpStatus2.INTERNAL_SERVER_ERROR,
-    name: errorName,
-    message: errorMessage,
-    error: err.stack
+    message,
+    errorDetails: {
+      statusCode,
+      path: req.originalUrl,
+      timestamp: (/* @__PURE__ */ new Date()).toISOString(),
+      ...process.env.NODE_ENV === "development" && { stack: err.stack }
+    }
   });
 };
 
@@ -1124,11 +1127,17 @@ router5.put(
 var availabilityRouter = router5;
 
 // src/middlewares/notFound.ts
+import httpStatus7 from "http-status";
 var notFound = (req, res) => {
-  res.status(404).json({
+  res.status(httpStatus7.NOT_FOUND).json({
+    success: false,
     message: "Route not found!",
-    path: req.originalUrl,
-    date: /* @__PURE__ */ new Date()
+    errorDetails: {
+      statusCode: httpStatus7.NOT_FOUND,
+      path: req.originalUrl,
+      method: req.method,
+      timestamp: (/* @__PURE__ */ new Date()).toISOString()
+    }
   });
 };
 
@@ -1202,7 +1211,7 @@ var bookingService = {
 };
 
 // src/modules/booking/booking.controller.ts
-import httpStatus7 from "http-status";
+import httpStatus8 from "http-status";
 var createBooking = catchAsync(
   async (req, res, next) => {
     const payload = req.body;
@@ -1213,7 +1222,7 @@ var createBooking = catchAsync(
     );
     sendResponse(res, {
       success: true,
-      statusCode: httpStatus7.OK,
+      statusCode: httpStatus8.OK,
       message: "Service booked successfully",
       data: result
     });
@@ -1225,7 +1234,7 @@ var getUsersBooking = catchAsync(
     const result = await bookingService.getUsersBookingFromDb(customerId);
     sendResponse(res, {
       success: true,
-      statusCode: httpStatus7.OK,
+      statusCode: httpStatus8.OK,
       message: "All bookings for logged in customer retrieved",
       data: result
     });
@@ -1237,7 +1246,7 @@ var getBookingById = catchAsync(
     const result = await bookingService.getBookingByIdFromDb(bookingId);
     sendResponse(res, {
       success: true,
-      statusCode: httpStatus7.OK,
+      statusCode: httpStatus8.OK,
       message: "Booking details retrieved",
       data: result
     });
@@ -1264,7 +1273,7 @@ var bookingRouter = router6;
 import { Router as Router7 } from "express";
 
 // src/modules/reviews/review.controller.ts
-import httpStatus8 from "http-status";
+import httpStatus9 from "http-status";
 
 // src/modules/reviews/review.service.ts
 var createReviewIntoDB = async (userId, payload) => {
@@ -1327,7 +1336,7 @@ var createReview = catchAsync(
     const result = await reviewService.createReviewIntoDB(userId, payload);
     sendResponse(res, {
       success: true,
-      statusCode: httpStatus8.OK,
+      statusCode: httpStatus9.OK,
       message: "Review posted successfully",
       data: result
     });
@@ -1346,7 +1355,7 @@ var reviewRouter = router7;
 import { Router as Router8 } from "express";
 
 // src/modules/admin/admin.controller.ts
-import httpStatus9 from "http-status";
+import httpStatus10 from "http-status";
 
 // src/modules/admin/admin.service.ts
 var getAllUsersFromDb = async () => {
@@ -1399,7 +1408,7 @@ var getAllUsers = catchAsync(
     const result = await adminService.getAllUsersFromDb();
     sendResponse(res, {
       success: true,
-      statusCode: httpStatus9.OK,
+      statusCode: httpStatus10.OK,
       message: "All users retrieved",
       data: result
     });
@@ -1412,7 +1421,7 @@ var updateUserStatus = catchAsync(
     const result = await adminService.updateUserStatusIntoDb(payload, userId);
     sendResponse(res, {
       success: true,
-      statusCode: httpStatus9.OK,
+      statusCode: httpStatus10.OK,
       message: "User status updated successfully",
       data: result
     });
@@ -1423,7 +1432,7 @@ var getAllBookings2 = catchAsync(
     const result = await adminService.getAllBookings();
     sendResponse(res, {
       success: true,
-      statusCode: httpStatus9.OK,
+      statusCode: httpStatus10.OK,
       message: "All bookings retrieved successfully",
       data: result
     });
@@ -1435,7 +1444,7 @@ var createCategory = catchAsync(
     const result = await adminService.createCategoryIntoDb(payload);
     sendResponse(res, {
       success: true,
-      statusCode: httpStatus9.OK,
+      statusCode: httpStatus10.OK,
       message: "Category created successfully",
       data: result
     });
@@ -1446,7 +1455,7 @@ var getAllCategory = catchAsync(
     const result = await adminService.getAllCategoriesFromDb();
     sendResponse(res, {
       success: true,
-      statusCode: httpStatus9.OK,
+      statusCode: httpStatus10.OK,
       message: "All category retrieved successfully",
       data: result
     });
@@ -1621,7 +1630,7 @@ var paymentService = {
 };
 
 // src/modules/payments/payment.controller.ts
-import httpStatus10 from "http-status";
+import httpStatus11 from "http-status";
 var createCheckOutSession = catchAsync(
   async (req, res, next) => {
     const userId = req.user?.id;
@@ -1632,7 +1641,7 @@ var createCheckOutSession = catchAsync(
     );
     sendResponse(res, {
       success: true,
-      statusCode: httpStatus10.OK,
+      statusCode: httpStatus11.OK,
       message: "Checkout completed successfully",
       data: result
     });
@@ -1645,7 +1654,7 @@ var handleWebhook2 = catchAsync(
     await paymentService.handleWebhook(event, signature);
     sendResponse(res, {
       success: true,
-      statusCode: httpStatus10.OK,
+      statusCode: httpStatus11.OK,
       message: "Webhook triggered successfully",
       data: null
     });
@@ -1657,7 +1666,7 @@ var getPayment = catchAsync(
     const result = await paymentService.getPaymentsFromDb(userId);
     sendResponse(res, {
       success: true,
-      statusCode: httpStatus10.OK,
+      statusCode: httpStatus11.OK,
       message: "payments  retrieved successfully",
       data: result
     });
@@ -1669,7 +1678,7 @@ var getPaymentDetails = catchAsync(
     const result = await paymentService.getPaymentByIdFromDB(paymentId);
     sendResponse(res, {
       success: true,
-      statusCode: httpStatus10.OK,
+      statusCode: httpStatus11.OK,
       message: "payments details retrieved successfully",
       data: result
     });

@@ -7,13 +7,17 @@ export const globalErrorHandler = (
   res: Response,
   next: NextFunction,
 ) => {
-  let errorMessage = err.message || "Internal server error";
-  let errorName = err.name || "Internal Server Error";
-  res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+  let statusCode = err.statusCode || httpStatus.INTERNAL_SERVER_ERROR;
+  let message = err.message || "Internal server error";
+
+  res.status(statusCode).json({
     success: false,
-    statusCode: httpStatus.INTERNAL_SERVER_ERROR,
-    name: errorName,
-    message: errorMessage,
-    error: err.stack,
+    message,
+    errorDetails: {
+      statusCode,
+      path: req.originalUrl,
+      timestamp: new Date().toISOString(),
+      ...(process.env.NODE_ENV === "development" && { stack: err.stack }),
+    },
   });
 };

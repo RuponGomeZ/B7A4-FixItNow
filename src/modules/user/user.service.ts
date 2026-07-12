@@ -6,11 +6,15 @@ import { prisma } from "../../lib/prisma";
 const registerUserIntoDb = async (payload: RegisterUserPayload) => {
   const { name, location, email, password, phone, role, profileImage } =
     payload;
+  if (!name && !location && !email && !password && !phone && !role) {
+    throw new Error("Required field can not be empty");
+  }
   const isExist = await prisma.user.findUnique({
     where: {
       email,
     },
   });
+
   if (isExist) {
     throw new Error("User with this email location already exist!");
   }
