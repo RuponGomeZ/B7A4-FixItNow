@@ -33,6 +33,7 @@ const createAvailabilityIntoDb = async (
 
     return createAvailability;
   });
+  return transactionResult;
 };
 
 const updateAvailabilityIntoDb = async (payload: IAvailability, id: string) => {

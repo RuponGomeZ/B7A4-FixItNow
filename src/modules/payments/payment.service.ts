@@ -83,21 +83,28 @@ const createCheckOutSessionIntoDB = async (
 
 const handleWebhook = async (payload: Buffer, signature: string) => {
   const endpointSecret = config.stripe_webhook_secret;
-  const event = stripe.webhooks.constructEvent(
-    payload,
-    signature,
-    endpointSecret,
-  );
+  try {
+    const event = stripe.webhooks.constructEvent(
+      payload,
+      signature,
+      endpointSecret,
+    );
 
-  switch (event.type) {
-    case "checkout.session.completed":
-      await handleCheckOutCompleted(event.data.object);
-      break;
+    switch (event.type) {
+      case "checkout.session.completed":
+        await handleCheckOutCompleted(event.data.object as any);
+        break;
 
-    // case "payment_intent.succeeded"
+      case "payment_intent.succeeded":
+        await handleCheckOutCompleted(event.data.object as any);
+        break;
 
-    default:
-      console.log(`No events matched to ${event.type}`);
+      default:
+        console.log(`No events matched to ${event.type}`);
+    }
+  } catch (error: any) {
+    console.log("Stripe webhook verify error:", error.message);
+    throw error;
   }
 };
 

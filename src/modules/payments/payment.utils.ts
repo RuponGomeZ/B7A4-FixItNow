@@ -16,7 +16,6 @@ export const handleCheckOutCompleted = async (
     return;
   }
 
-  // Use amount already present on the checkout session to avoid extra Stripe API calls
   const amountInCents = session.amount_total;
   if (!amountInCents) return;
 

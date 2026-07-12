@@ -26,15 +26,9 @@
             "url": {
               "raw": "http://localhost:5000/api/users/register",
               "protocol": "http",
-              "host": [
-                "localhost"
-              ],
+              "host": ["localhost"],
               "port": "5000",
-              "path": [
-                "api",
-                "users",
-                "register"
-              ]
+              "path": ["api", "users", "register"]
             }
           },
           "response": []
@@ -68,15 +62,9 @@
             "url": {
               "raw": "http://localhost:5000/api/users/me",
               "protocol": "http",
-              "host": [
-                "localhost"
-              ],
+              "host": ["localhost"],
               "port": "5000",
-              "path": [
-                "api",
-                "users",
-                "me"
-              ]
+              "path": ["api", "users", "me"]
             }
           },
           "response": []
@@ -103,15 +91,9 @@
             "url": {
               "raw": "http://localhost:5000/api/auth/login",
               "protocol": "http",
-              "host": [
-                "localhost"
-              ],
+              "host": ["localhost"],
               "port": "5000",
-              "path": [
-                "api",
-                "auth",
-                "login"
-              ]
+              "path": ["api", "auth", "login"]
             }
           },
           "response": []
@@ -147,15 +129,9 @@
             "url": {
               "raw": "http://localhost:5000/api/technician/create-profile",
               "protocol": "http",
-              "host": [
-                "localhost"
-              ],
+              "host": ["localhost"],
               "port": "5000",
-              "path": [
-                "api",
-                "technician",
-                "create-profile"
-              ]
+              "path": ["api", "technician", "create-profile"]
             }
           },
           "response": []
@@ -186,15 +162,9 @@
             "url": {
               "raw": "http://localhost:5000/api/technician/update-profile",
               "protocol": "http",
-              "host": [
-                "localhost"
-              ],
+              "host": ["localhost"],
               "port": "5000",
-              "path": [
-                "api",
-                "technician",
-                "update-profile"
-              ]
+              "path": ["api", "technician", "update-profile"]
             }
           },
           "response": []
@@ -207,14 +177,9 @@
             "url": {
               "raw": "http://localhost:5000/api/technician",
               "protocol": "http",
-              "host": [
-                "localhost"
-              ],
+              "host": ["localhost"],
               "port": "5000",
-              "path": [
-                "api",
-                "technician"
-              ],
+              "path": ["api", "technician"],
               "query": [
                 {
                   "key": "hourlyRate",
@@ -258,9 +223,7 @@
             "url": {
               "raw": "http://localhost:5000/api/technician/profile/8bef2c75-38f4-4c46-a271-2983df822121",
               "protocol": "http",
-              "host": [
-                "localhost"
-              ],
+              "host": ["localhost"],
               "port": "5000",
               "path": [
                 "api",
@@ -280,9 +243,7 @@
             "url": {
               "raw": "http://localhost:5000/api/technician/8bef2c75-38f4-4c46-a271-2983df822121",
               "protocol": "http",
-              "host": [
-                "localhost"
-              ],
+              "host": ["localhost"],
               "port": "5000",
               "path": [
                 "api",
@@ -301,15 +262,9 @@
             "url": {
               "raw": "http://localhost:5000/api/technician/bookings",
               "protocol": "http",
-              "host": [
-                "localhost"
-              ],
+              "host": ["localhost"],
               "port": "5000",
-              "path": [
-                "api",
-                "technician",
-                "bookings"
-              ]
+              "path": ["api", "technician", "bookings"]
             }
           },
           "response": []
@@ -331,9 +286,7 @@
             "url": {
               "raw": "http://localhost:5000/api/technician/booking/5248ed8a-616c-46ab-87cb-5ffbe1f0c267",
               "protocol": "http",
-              "host": [
-                "localhost"
-              ],
+              "host": ["localhost"],
               "port": "5000",
               "path": [
                 "api",
@@ -384,15 +337,9 @@
             "url": {
               "raw": "http://localhost:5000/api/admin/categories",
               "protocol": "http",
-              "host": [
-                "localhost"
-              ],
+              "host": ["localhost"],
               "port": "5000",
-              "path": [
-                "api",
-                "admin",
-                "categories"
-              ]
+              "path": ["api", "admin", "categories"]
             }
           },
           "response": []
@@ -426,15 +373,9 @@
             "url": {
               "raw": "http://localhost:5000/api/admin/categories",
               "protocol": "http",
-              "host": [
-                "localhost"
-              ],
+              "host": ["localhost"],
               "port": "5000",
-              "path": [
-                "api",
-                "admin",
-                "categories"
-              ]
+              "path": ["api", "admin", "categories"]
             }
           },
           "response": []
@@ -456,15 +397,9 @@
             "url": {
               "raw": "http://localhost:5000/api/admin/users",
               "protocol": "http",
-              "host": [
-                "localhost"
-              ],
+              "host": ["localhost"],
               "port": "5000",
-              "path": [
-                "api",
-                "admin",
-                "users"
-              ]
+              "path": ["api", "admin", "users"]
             }
           },
           "response": []
@@ -495,9 +430,7 @@
             "url": {
               "raw": "http://localhost:5000/api/admin/users/fb6eaeab-b3b0-4c80-ab6f-df21f1e6de57",
               "protocol": "http",
-              "host": [
-                "localhost"
-              ],
+              "host": ["localhost"],
               "port": "5000",
               "path": [
                 "api",
@@ -538,15 +471,9 @@
             "url": {
               "raw": "http://localhost:5000/api/admin/bookings",
               "protocol": "http",
-              "host": [
-                "localhost"
-              ],
+              "host": ["localhost"],
               "port": "5000",
-              "path": [
-                "api",
-                "admin",
-                "bookings"
-              ]
+              "path": ["api", "admin", "bookings"]
             }
           },
           "response": []
@@ -571,14 +498,9 @@
             "url": {
               "raw": "http://localhost:5000/api/services",
               "protocol": "http",
-              "host": [
-                "localhost"
-              ],
+              "host": ["localhost"],
               "port": "5000",
-              "path": [
-                "api",
-                "services"
-              ],
+              "path": ["api", "services"],
               "query": [
                 {
                   "key": "category",
@@ -641,14 +563,9 @@
             "url": {
               "raw": "http://localhost:5000/api/services",
               "protocol": "http",
-              "host": [
-                "localhost"
-              ],
+              "host": ["localhost"],
               "port": "5000",
-              "path": [
-                "api",
-                "services"
-              ]
+              "path": ["api", "services"]
             }
           },
           "response": []
@@ -675,14 +592,9 @@
             "url": {
               "raw": "http://localhost:5000/api/availability",
               "protocol": "http",
-              "host": [
-                "localhost"
-              ],
+              "host": ["localhost"],
               "port": "5000",
-              "path": [
-                "api",
-                "availability"
-              ]
+              "path": ["api", "availability"]
             }
           },
           "response": []
@@ -704,14 +616,9 @@
             "url": {
               "raw": "http://localhost:5000/api/availability",
               "protocol": "http",
-              "host": [
-                "localhost"
-              ],
+              "host": ["localhost"],
               "port": "5000",
-              "path": [
-                "api",
-                "availability"
-              ]
+              "path": ["api", "availability"]
             }
           },
           "response": []
@@ -738,14 +645,9 @@
             "url": {
               "raw": "http://localhost:5000/api/booking",
               "protocol": "http",
-              "host": [
-                "localhost"
-              ],
+              "host": ["localhost"],
               "port": "5000",
-              "path": [
-                "api",
-                "booking"
-              ]
+              "path": ["api", "booking"]
             }
           },
           "response": []
@@ -770,14 +672,9 @@
             "url": {
               "raw": "http://localhost:5000/api/booking",
               "protocol": "http",
-              "host": [
-                "localhost"
-              ],
+              "host": ["localhost"],
               "port": "5000",
-              "path": [
-                "api",
-                "booking"
-              ]
+              "path": ["api", "booking"]
             }
           },
           "response": []
@@ -802,9 +699,7 @@
             "url": {
               "raw": "http://localhost:5000/api/booking/details/eab248fa-e99b-405c-ad2c-48a1cd87609e",
               "protocol": "http",
-              "host": [
-                "localhost"
-              ],
+              "host": ["localhost"],
               "port": "5000",
               "path": [
                 "api",
@@ -838,14 +733,9 @@
             "url": {
               "raw": "http://localhost:5000/api/reviews",
               "protocol": "http",
-              "host": [
-                "localhost"
-              ],
+              "host": ["localhost"],
               "port": "5000",
-              "path": [
-                "api",
-                "reviews"
-              ]
+              "path": ["api", "reviews"]
             }
           },
           "response": []
@@ -881,15 +771,9 @@
             "url": {
               "raw": "http://localhost:5000/api/payments/checkout",
               "protocol": "http",
-              "host": [
-                "localhost"
-              ],
+              "host": ["localhost"],
               "port": "5000",
-              "path": [
-                "api",
-                "payments",
-                "checkout"
-              ]
+              "path": ["api", "payments", "checkout"]
             }
           },
           "response": []
@@ -923,15 +807,9 @@
             "url": {
               "raw": "http://localhost:5000/api/payments/",
               "protocol": "http",
-              "host": [
-                "localhost"
-              ],
+              "host": ["localhost"],
               "port": "5000",
-              "path": [
-                "api",
-                "payments",
-                ""
-              ]
+              "path": ["api", "payments", ""]
             }
           },
           "response": []
@@ -965,9 +843,7 @@
             "url": {
               "raw": "http://localhost:5000/api/payments/details/0c4557b2-a1e3-4520-a936-edecaae4b363",
               "protocol": "http",
-              "host": [
-                "localhost"
-              ],
+              "host": ["localhost"],
               "port": "5000",
               "path": [
                 "api",

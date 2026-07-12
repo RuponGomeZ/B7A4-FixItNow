@@ -17,13 +17,13 @@ import { paymentRouter } from "./modules/payments/payment.router";
 
 const app: Application = express();
 
+app.use("/api/payments/webhook", express.raw({ type: "application/json" }));
 app.use(
   cors({
     origin: config.app_url,
     credentials: true,
   }),
 );
-app.use("/api/payments/webhook", express.raw({ type: "application/json" }));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

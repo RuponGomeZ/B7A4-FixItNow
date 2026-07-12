@@ -7,6 +7,7 @@ const createCheckOutSession = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const userId = req.user?.id as string;
     const payload = req.body;
+
     const result = await paymentService.createCheckOutSessionIntoDB(
       userId,
       payload,
@@ -23,8 +24,8 @@ const createCheckOutSession = catchAsync(
 
 const handleWebhook = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const event = req.body;
-    const signature = req.headers["stripe-signature"];
+    const event = req.body as Buffer;
+    const signature = req.headers["stripe-signature"] as string;
 
     await paymentService.handleWebhook(event, signature as string);
 

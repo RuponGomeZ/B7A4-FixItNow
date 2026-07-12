@@ -1072,6 +1072,7 @@ var createAvailabilityIntoDb = async (payload, userId) => {
     });
     return createAvailability2;
   });
+  return transactionResult;
 };
 var updateAvailabilityIntoDb = async (payload, id) => {
   const { date, endTime, isBooked, startTime } = payload;
@@ -1485,7 +1486,7 @@ var adminController = {
 // src/modules/admin/admin.route.ts
 var router8 = (0, import_express8.Router)();
 router8.post("/categories", auth(Role.ADMIN), adminController.createCategory);
-router8.get("/categories", auth(Role.ADMIN), adminController.getAllCategory);
+router8.get("/categories", adminController.getAllCategory);
 router8.get("/users", auth(Role.ADMIN), adminController.getAllUsers);
 router8.patch("/users/:id", auth(Role.ADMIN), adminController.updateUserStatus);
 router8.get("/bookings", auth(Role.ADMIN), adminController.getAllBookings);
@@ -1598,18 +1599,25 @@ var createCheckOutSessionIntoDB = async (userId, payload) => {
 };
 var handleWebhook = async (payload, signature) => {
   const endpointSecret = config_default.stripe_webhook_secret;
-  const event = stripe.webhooks.constructEvent(
-    payload,
-    signature,
-    endpointSecret
-  );
-  switch (event.type) {
-    case "checkout.session.completed":
-      await handleCheckOutCompleted(event.data.object);
-      break;
-    // case "payment_intent.succeeded"
-    default:
-      console.log(`No events matched to ${event.type}`);
+  try {
+    const event = stripe.webhooks.constructEvent(
+      payload,
+      signature,
+      endpointSecret
+    );
+    switch (event.type) {
+      case "checkout.session.completed":
+        await handleCheckOutCompleted(event.data.object);
+        break;
+      case "payment_intent.succeeded":
+        await handleCheckOutCompleted(event.data.object);
+        break;
+      default:
+        console.log(`No events matched to ${event.type}`);
+    }
+  } catch (error) {
+    console.log("Stripe webhook verify error:", error.message);
+    throw error;
   }
 };
 var getPaymentsFromDb = async (userId) => {
@@ -1706,18 +1714,18 @@ router9.post(
 );
 router9.post("/webhook", paymentController.handleWebhook);
 router9.get("/", auth(Role.CUSTOMER), paymentController.getPayment);
-router9.get("/details/:paymentId", paymentController.getPaymentDetails);
+router9.get("/details/:id", paymentController.getPaymentDetails);
 var paymentRouter = router9;
 
 // src/app.ts
 var app = (0, import_express10.default)();
+app.use("/api/payments/webhook", import_express10.default.raw({ type: "application/json" }));
 app.use(
   (0, import_cors.default)({
     origin: config_default.app_url,
     credentials: true
   })
 );
-app.use("/api/payments/webhook", import_express10.default.raw({ type: "application/json" }));
 app.use(import_express10.default.json());
 app.use(import_express10.default.urlencoded({ extended: true }));
 app.use((0, import_cookie_parser.default)());
